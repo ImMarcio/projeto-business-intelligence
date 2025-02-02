@@ -63,19 +63,19 @@
 -- JOIN Transportadoras transp ON ped."Via" = transp.codigodatransportadora;
 
 
-DROP INDEX IF EXISTS fatos_vendas_idx;
+-- DROP INDEX IF EXISTS fatos_vendas_idx;
 
-INSERT INTO fatos_vendas (numerodopedido, precounitario, quantidade, desconto, paisdedestino, cod_produto, sk_pedido, sk_tempo, sk_cliente, sk_funcionario)
-SELECT ped."NumeroDoPedido", dp."PrecoUnitario", dp."Quantidade", dp."Desconto", cli."Pais", prod."CodigoDoProduto", pd."sk_pedido", te."sk_tempo", clid."sk_cliente", fund."sk_funcionario"
-FROM "Pedidos" ped
-JOIN "Detalhes do Pedido" dp ON ped."NumeroDoPedido" = dp."NumeroDoPedido"
-JOIN "Clientes" cli ON ped."CodigoDoCliente" = cli."CodigoDoCliente"
-JOIN "Funcionarios" fun ON ped."CodigoDoFuncionario" = fun."CodigoDoFuncionario"
-JOIN "tempo" te ON ped."DataDoPedido" = te."data"
-JOIN "pedidos" pd ON ped."NumeroDoPedido" = pd."numerodopedido"
-JOIN "funcionarios" fund ON ped."CodigoDoFuncionario" = fund."codigodofuncionario"
-JOIN "clientes" clid ON ped."CodigoDoCliente" = clid."codigodocliente"
-JOIN "Produtos" prod ON dp."CodigoDoProduto" = prod."CodigoDoProduto";
+-- INSERT INTO fatos_vendas (numerodopedido, precounitario, quantidade, desconto, paisdedestino, cod_produto, sk_pedido, sk_tempo, sk_cliente, sk_funcionario)
+-- SELECT ped."NumeroDoPedido", dp."PrecoUnitario", dp."Quantidade", dp."Desconto", cli."Pais", prod."CodigoDoProduto", pd."sk_pedido", te."sk_tempo", clid."sk_cliente", fund."sk_funcionario"
+-- FROM "Pedidos" ped
+-- JOIN "Detalhes do Pedido" dp ON ped."NumeroDoPedido" = dp."NumeroDoPedido"
+-- JOIN "Clientes" cli ON ped."CodigoDoCliente" = cli."CodigoDoCliente"
+-- JOIN "Funcionarios" fun ON ped."CodigoDoFuncionario" = fun."CodigoDoFuncionario"
+-- JOIN "tempo" te ON ped."DataDoPedido" = te."data"
+-- JOIN "pedidos" pd ON ped."NumeroDoPedido" = pd."numerodopedido"
+-- JOIN "funcionarios" fund ON ped."CodigoDoFuncionario" = fund."codigodofuncionario"
+-- JOIN "clientes" clid ON ped."CodigoDoCliente" = clid."codigodocliente"
+-- JOIN "Produtos" prod ON dp."CodigoDoProduto" = prod."CodigoDoProduto";
 
 
 
