@@ -63,61 +63,35 @@
 -- JOIN Transportadoras transp ON ped."Via" = transp.codigodatransportadora;
 
 
+DROP INDEX IF EXISTS fatos_vendas_idx;
 
-
-INSERT INTO fatos_vendas (numerodopedido,cod_produto,sk_cliente,       sk_funcionario,            sk_tempo,     quantidade,     precounitario,     desconto,      sk_pedido,paisdedestino)
-SELECT ped."NumeroDoPedido",prod."CodigoDoProduto",cli."CodigoDoCliente",func."CodigoDoFuncionario",dt."sk_tempo",dp."Quantidade",dp."PrecoUnitario",dp."Desconto",dp."NumeroDoPedido",cli."Pais" 
-FROM "Detalhes do Pedido" dp  
-JOIN Pedidos ped ON "dp.NumeroDoPedido" = "ped.NumeroDoPedido"
-JOIN Produtos prod ON "dp.CodigoDoProduto" = "prod.CodigoDoProduto"
-JOIN Clientes cli ON "ped.CodigoDoCliente" = "cli.CodigoDoCliente"
-JOIN Funcionarios func ON "ped.CodigoDoFuncionario" = "func.CodigoDoFuncionario"
-JOIN Tempo dt ON "ped.DataDoPedido" = "dt.data";
-
-
-INSERT INTO fatos_vendas (
-    numerodopedido, 
-    cod_produto, 
-    sk_cliente, 
-    sk_funcionario, 
-    sk_tempo, 
-    quantidade, 
-    precounitario, 
-    desconto, 
-    sk_pedido, 
-    paisdedestino
-)
-SELECT 
-    p."numerodopedido", 
-    d."CodigoDoProduto", 
-    c.CodigoDoCliente, 
-    f.CodigoDoFuncionario, 
-    t.sk_tempo, 
-    d."Quantidade", 
-    d."PrecoUnitario", 
-    d."Desconto", 
-    pd.sk_pedido, 
-    p."PaisDeDestino"
-FROM "Pedidos" p
-JOIN "Detalhes do Pedido" d ON p."NumeroDoPedido" = d."NumeroDoPedido"
-JOIN "Clientes" c ON d."CodigoDoCliente" = "c.CodigoDoCliente"
-JOIN "Funcionarios" f ON "p.CodigoDoFuncionario" = "f.CodigoDoFuncionario"
-JOIN "tempo" t ON "p.DataDoPedido" = "t.data"
-Join "pedidos" pd on "p.NumeroDoPedido" = "pd.sk_pedido";
+INSERT INTO fatos_vendas (numerodopedido, precounitario, quantidade, desconto, paisdedestino, cod_produto, sk_pedido, sk_tempo, sk_cliente, sk_funcionario)
+SELECT ped."NumeroDoPedido", dp."PrecoUnitario", dp."Quantidade", dp."Desconto", cli."Pais", prod."CodigoDoProduto", pd."sk_pedido", te."sk_tempo", clid."sk_cliente", fund."sk_funcionario"
+FROM "Pedidos" ped
+JOIN "Detalhes do Pedido" dp ON ped."NumeroDoPedido" = dp."NumeroDoPedido"
+JOIN "Clientes" cli ON ped."CodigoDoCliente" = cli."CodigoDoCliente"
+JOIN "Funcionarios" fun ON ped."CodigoDoFuncionario" = fun."CodigoDoFuncionario"
+JOIN "tempo" te ON ped."DataDoPedido" = te."data"
+JOIN "pedidos" pd ON ped."NumeroDoPedido" = pd."numerodopedido"
+JOIN "funcionarios" fund ON ped."CodigoDoFuncionario" = fund."codigodofuncionario"
+JOIN "clientes" clid ON ped."CodigoDoCliente" = clid."codigodocliente"
+JOIN "Produtos" prod ON dp."CodigoDoProduto" = prod."CodigoDoProduto";
 
 
 
-
-
-
-
-
-select * from "pedidos"
 select * from "Pedidos"
 
-select * from fatos_vendas
+select * from "Clientes"
+select * from "Produtos"
+select * from "Funcionarios"
+select * from "tempo"
 select * from "Detalhes do Pedido";
 
-SELECT "NumeroDoPedido", "CodigoDoProduto", "PrecoUnitario", "Quantidade", "Desconto"
-	FROM public."Detalhes do Pedido";
+select * from "clientes"
+select * from "Produtos"
+select * from "funcionarios"
+select * from "tempo"
+select * from "Detalhes do Pedido";
+
+select * from "fatos_vendas";
 
