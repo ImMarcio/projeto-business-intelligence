@@ -6,7 +6,6 @@ group by c.nomedaempresa
 order by totalvendas desc
 limit 10;
 
-
 --2  Ranking com os 10 maiores produtos (vendas) por categoria de produto
 select cat.nomedacategoria, p.nomedoproduto, sum(fv.quantidade) as totalvendas
 from fatos_vendas fv
@@ -35,10 +34,6 @@ where c.pais = 'eua'
 group by cat.nomedacategoria
 order by totalvendas desc
 limit 1;
-
-
-
-
 
 -- 5. Relação dos vendedores e o detalhamento das vendas de cada um para os respectivos clientes
 select f.nomecompleto as vendedor, c.nomedaempresa as cliente, fv.quantidade, fv.desconto, fv.precounitario
@@ -83,13 +78,15 @@ group by to_char(t.data, 'yyyy-mm')
 order by mes;
 
 -- 11. Tempo médio de entrega (em dias) de cada transportadora no ano de 1997
-select tr.nomedaempresa as transportadora, 
-       avg(extract(day from p.datadeentrega - p.datadopedido)) as tempomediotempo
-from pedidos p
-join transportadoras tr on p.sk_transportadora = tr.sk_transportadora
-join tempo t on p.sk_tempoenvio = t.sk_tempo
-where t.ano = 1997
-group by tr.nomedaempresa;
+SELECT 
+    t.nomedaempresa AS transportadora,
+    ROUND(AVG(p.datadeentrega - p.datadeenvio), 2) AS tempo_medio_entrega
+FROM fatos_vendas f
+JOIN pedidos p ON f.sk_pedido = p.sk_pedido
+JOIN transportadoras t ON p.sk_transportadora = t.sk_transportadora
+WHERE EXTRACT(YEAR FROM p.datadeentrega) = 1997
+GROUP BY t.nomedaempresa
+ORDER BY tempo_medio_entrega;
 
 -- 12. Distribuição da quantidade de vendedores por país de origem do mesmo
 select f.pais, count(*) as quantidadevendedores
@@ -179,15 +176,18 @@ join clientes c on fv.sk_cliente = c.sk_cliente
 group by c.pais, c.cidade, c.nomedaempresa;
 
 -- 21. Transportadoras com melhor tempo de entrega
-select tr.nomedaempresa as transportadora, avg(date_part('day', p.datadeentrega - p.datadopedido)) as tempomediotempo
-from pedidos p
-join transportadoras tr on p.sk_transportadora = tr.sk_transportadora
-group by tr.nomedaempresa
-order by tempomediotempo asc;
+SELECT 
+    t.nomedaempresa AS transportadora,
+    ROUND(AVG(p.datadeentrega - p.datadeenvio), 2) AS tempo_medio_entrega
+FROM pedidos p
+JOIN transportadoras t ON p.sk_transportadora = t.sk_transportadora
+GROUP BY t.nomedaempresa
+ORDER BY tempo_medio_entrega ASC;
 
 -- 22. Tempo médio para liberação dos produtos para entrega
-select avg(date_part('day', p.datadeenvio - p.datadopedido)) as tempomedioliberacao
-from pedidos p;
+SELECT 
+    ROUND(AVG(p.datadeenvio - p.datadopedido), 2) AS tempo_medio_liberacao
+FROM pedidos p;
 
 -- 23. Vendedores e respectivos tickets médios por pedido
 select f.nomecompleto as vendedor, avg(fv.quantidade * fv.precounitario) as ticketmedio
@@ -196,11 +196,75 @@ join funcionarios f on fv.sk_funcionario = f.sk_funcionario
 group by f.nomecompleto;
 
 -- 24. Produtos que não estão tendo movimentação de venda
-select p.nomedoproduto
-from produtos p
-left join fatos_vendas fv on p.sk_produto = fv.cod_produto
-where fv.cod_produto is null;
+SELECT p.nomedoproduto
+FROM produtos p
+LEFT JOIN fatos_vendas fv ON p.sk_produto = fv.cod_produto
+WHERE fv.cod_produto IS NULL;
 
+-- 25. Categorias de produtos que mais recebem descontos
+SELECT cat.nomedacategoria, SUM(fv.desconto) AS totaldescontos
+FROM fatos_vendas fv
+JOIN produtos p ON fv.cod_produto = p.sk_produto
+JOIN categorias cat ON p.sk_categoria = cat.sk_categoria
+GROUP BY cat.nomedacategoria
+ORDER BY totaldescontos DESC;
 
+-- 26. Tendência no faturamento, com base no histórico de vendas
+SELECT to_char(t.data, 'YYYY-MM') AS mes, 
+       SUM(fv.quantidade * fv.precounitario) AS totalfaturamento
+FROM fatos_vendas fv
+JOIN tempo t ON fv.sk_tempo = t.sk_tempo
+GROUP BY to_char(t.data, 'YYYY-MM')
+ORDER BY mes;
 
+-- 27. Existem clientes com perfil de consumo similar?
+SELECT c1.nomedaempresa AS cliente1, 
+       c2.nomedaempresa AS cliente2, 
+       COUNT(DISTINCT fv1.cod_produto) AS produtos_comuns
+FROM fatos_vendas fv1
+JOIN fatos_vendas fv2 ON fv1.cod_produto = fv2.cod_produto AND fv1.sk_cliente <> fv2.sk_cliente
+JOIN clientes c1 ON fv1.sk_cliente = c1.sk_cliente
+JOIN clientes c2 ON fv2.sk_cliente = c2.sk_cliente
+GROUP BY c1.nomedaempresa, c2.nomedaempresa
+HAVING COUNT(DISTINCT fv1.cod_produto) > 5
+ORDER BY produtos_comuns DESC;
 
+-- Diretoria
+
+-- 28. Ticket médio por pedido
+SELECT p.sk_pedido, AVG(fv.quantidade * fv.precounitario) AS ticket_medio
+FROM fatos_vendas fv
+JOIN pedidos p ON fv.sk_pedido = p.sk_pedido
+GROUP BY p.sk_pedido
+ORDER BY ticket_medio DESC;
+
+-- 29. Faturamento médio por cliente
+SELECT c.sk_cliente, c.nomedaempresa, AVG(fv.quantidade * fv.precounitario) AS faturamento_medio
+FROM fatos_vendas fv
+JOIN clientes c ON fv.sk_cliente = c.sk_cliente
+GROUP BY c.sk_cliente, c.nomedaempresa
+ORDER BY faturamento_medio DESC;
+
+-- 30. Qtde de clientes atendidos
+SELECT COUNT(DISTINCT fv.sk_cliente) AS quantidade_clientes_atendidos
+FROM fatos_vendas fv;
+
+-- 31. Tempo médio de entrega pela transportadora
+SELECT tr.nomedaempresa AS transportadora, 
+       AVG(p.datadeentrega - p.datadopedido) AS tempo_medio_entrega
+FROM pedidos p
+JOIN transportadoras tr ON p.sk_transportadora = tr.sk_transportadora
+GROUP BY tr.nomedaempresa
+ORDER BY tempo_medio_entrega;
+
+-- 32. Tempo médio para liberação do pedido para transportadora
+SELECT tr.nomedaempresa AS transportadora,
+       AVG(p.datadeenvio - p.datadopedido) AS tempo_medio_liberação
+FROM pedidos p
+JOIN transportadoras tr ON p.sk_transportadora = tr.sk_transportadora
+GROUP BY tr.nomedaempresa
+ORDER BY tempo_medio_liberação;
+
+-- 33. Faturamento geral
+SELECT SUM(f.precounitario * f.quantidade) AS faturamento_geral
+FROM fatos_vendas f;
