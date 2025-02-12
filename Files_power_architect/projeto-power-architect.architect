@@ -396,16 +396,16 @@
   </database>
  </source-databases>
  <target-database id="ppdb" dbcs-ref="DS0">
-  <table id="TAB119" populated="true" UUID="613523d0-ad81-4bdc-8276-78b1ed6e11db" name="Funcionarios" objectType="TABLE" physicalName="Funcionarios" >
+  <table id="TAB119" populated="true" UUID="613523d0-ad81-4bdc-8276-78b1ed6e11db" name="Dim_Funcionarios" objectType="TABLE" physicalName="Dim_Funcionarios" >
    <remarks></remarks>
    <folder id="FOLTAB1191" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL120" populated="true" UUID="c2341de3-03d2-4d09-8bc8-96c252a8079a" autoIncrement="true" autoIncrementSequenceName="Funcionarios_SK_Funcionario_seq" defaultValue="" name="SK_Funcionario" nullable="0" physicalName="SK_Funcionario" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL120" populated="true" UUID="c2341de3-03d2-4d09-8bc8-96c252a8079a" autoIncrement="true" autoIncrementSequenceName="Dim_Funcionarios_SK_Funcionario_seq" defaultValue="" name="SK_Funcionario" nullable="0" physicalName="SK_Funcionario" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL121" populated="true" UUID="2581a80f-d66a-49b4-8022-87bf4d8aefb4" autoIncrement="false" defaultValue="" name="CodigoDoFuncionario" nullable="0" physicalName="CodigoDoFuncionario" precision="0" referenceCount="1" scale="0" source-column-ref="COL51" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL122" populated="true" UUID="10907fb9-a2db-4810-b520-ad1924df5556" autoIncrement="false" autoIncrementSequenceName="Funcionarios_NomeCompleto_seq" defaultValue="" name="NomeCompleto" nullable="0" physicalName="NomeCompleto" precision="30" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL122" populated="true" UUID="10907fb9-a2db-4810-b520-ad1924df5556" autoIncrement="false" autoIncrementSequenceName="Dim_Funcionarios_NomeCompleto_seq" defaultValue="" name="NomeCompleto" nullable="0" physicalName="NomeCompleto" precision="30" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL123" populated="true" UUID="6d5fab9e-de1a-46c2-b370-7aff0e835f44" autoIncrement="false" defaultValue="" name="Cargo" nullable="1" physicalName="Cargo" precision="30" referenceCount="1" scale="0" source-column-ref="COL54" sourceDataTypeName="bpchar" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
@@ -440,7 +440,7 @@
   <table id="TAB132" populated="true" UUID="5380f0f1-6d3e-44b3-ac17-872aa55f0653" name="Fatos_Vendas" objectType="TABLE" physicalName="Fatos_Vendas" >
    <remarks></remarks>
    <folder id="FOLTAB1321" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL133" populated="true" UUID="2d5e23a8-278e-40fc-8562-922b9c9cb286" autoIncrement="false" autoIncrementSequenceName="Fatos_Vendas_PrecoTotal_seq" defaultValue="" name="PrecoTotal" nullable="0" physicalName="PrecoTotal" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL133" populated="true" UUID="2d5e23a8-278e-40fc-8562-922b9c9cb286" autoIncrement="false" autoIncrementSequenceName="Fatos_Vendas_PrecoTotal_seq" defaultValue="" name="PrecoTotal" nullable="0" physicalName="PrecoTotal" precision="14" referenceCount="1" scale="2" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
      <remarks></remarks>
     </column>
     <column id="COL134" populated="true" UUID="d2a87278-c0a9-43b5-84cc-832656cadc18" autoIncrement="false" defaultValue="" name="PrecoUnitario" nullable="1" physicalName="PrecoUnitario" precision="14" referenceCount="1" scale="2" source-column-ref="COL29" sourceDataTypeName="numeric" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
@@ -467,7 +467,7 @@
     <column id="COL141" populated="true" UUID="d42a6372-4670-4ef4-98c3-07f4af2e2577" autoIncrement="false" autoIncrementSequenceName="Funcionarios_New Column_seq" defaultValue="" name="SK_Funcionario" nullable="0" physicalName="SK_Funcionario" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL142" populated="true" UUID="51bb9692-db1b-4171-8843-aa6316cdc7d7" autoIncrement="false" autoIncrementSequenceName="Transportadoras_SK_transportadora_seq" defaultValue="" name="SK_transportadora" nullable="0" physicalName="SK_transportadora" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL142" populated="true" UUID="51bb9692-db1b-4171-8843-aa6316cdc7d7" autoIncrement="false" autoIncrementSequenceName="Transportadoras_SK_transportadora_seq" defaultValue="" name="SK_transportadora" nullable="0" physicalName="SK_transportadora" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL143" populated="true" UUID="30e34041-524b-4d2a-b199-137be68299b8" autoIncrement="false" autoIncrementSequenceName="Dim_Tempo_SK_TempoPedido_seq" defaultValue="" name="SK_TempoPedido" nullable="0" physicalName="SK_TempoPedido" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -489,10 +489,10 @@
     </index>
    </folder>
   </table>
-  <table id="TAB147" populated="true" UUID="fca44bb6-abc5-4ff7-86ff-576c2e731936" name="Produtos" objectType="TABLE" physicalName="Produtos" >
+  <table id="TAB147" populated="true" UUID="fca44bb6-abc5-4ff7-86ff-576c2e731936" name="Dim_Produtos" objectType="TABLE" physicalName="Dim_Produtos" >
    <remarks></remarks>
    <folder id="FOLTAB1471" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL148" populated="true" UUID="6a476a31-9000-4cb0-8117-237ec07ef180" autoIncrement="true" autoIncrementSequenceName="Produtos_SK_Produto_seq" defaultValue="" name="SK_Produto" nullable="0" physicalName="SK_Produto" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL148" populated="true" UUID="6a476a31-9000-4cb0-8117-237ec07ef180" autoIncrement="true" autoIncrementSequenceName="Dim_Produtos_SK_Produto_seq" defaultValue="" name="SK_Produto" nullable="0" physicalName="SK_Produto" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL149" populated="true" UUID="f06d864f-e006-43c9-98de-d34a46570ecc" autoIncrement="false" autoIncrementSequenceName="Produtos_NomeDaEmpresa_seq" defaultValue="" name="EmpresaFornecedora" nullable="1" physicalName="EmpresaFornecedora" precision="40" referenceCount="1" scale="0" source-column-ref="COL37" sourceDataTypeName="bpchar" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
@@ -510,7 +510,7 @@
     <column id="COL153" populated="true" UUID="bc4110ea-9cb3-48d9-9574-065126e11f03" autoIncrement="false" defaultValue="" name="PrecoUnitario" nullable="1" physicalName="PrecoUnitario" precision="10" referenceCount="1" scale="2" source-column-ref="COL93" sourceDataTypeName="numeric" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
      <remarks></remarks>
     </column>
-    <column id="COL154" populated="true" UUID="b5208fa9-b077-471b-8671-8ac5c01fd335" autoIncrement="false" autoIncrementSequenceName="Produtos_Categoria_seq" defaultValue="" name="Categoria" nullable="0" physicalName="Categoria" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL154" populated="true" UUID="b5208fa9-b077-471b-8671-8ac5c01fd335" autoIncrement="false" autoIncrementSequenceName="Dim_Produtos_Categoria_seq" defaultValue="" name="Categoria" nullable="0" physicalName="Categoria" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -527,10 +527,10 @@
     </index>
    </folder>
   </table>
-  <table id="TAB159" populated="true" UUID="9afe2158-d87b-435c-9d1a-c1a82d1d7978" name="Transportadoras" objectType="TABLE" physicalName="Transportadoras" >
+  <table id="TAB159" populated="true" UUID="9afe2158-d87b-435c-9d1a-c1a82d1d7978" name="Dim_Transportadoras" objectType="TABLE" physicalName="Dim_Transportadoras" >
    <remarks></remarks>
    <folder id="FOLTAB1591" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL160" populated="true" UUID="f37ab85d-eca6-4ade-981c-ac0d480c2a7c" autoIncrement="true" autoIncrementSequenceName="Transportadoras_SK_transportadora_seq_1" defaultValue="" name="SK_transportadora" nullable="0" physicalName="SK_transportadora" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL160" populated="true" UUID="f37ab85d-eca6-4ade-981c-ac0d480c2a7c" autoIncrement="true" autoIncrementSequenceName="Dim_Transportadoras_SK_transportadora_seq" defaultValue="" name="SK_transportadora" nullable="0" physicalName="SK_transportadora" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL161" populated="true" UUID="680a916a-7282-4790-a542-5e126978fde7" autoIncrement="false" defaultValue="" name="CodigoDaTransportadora" nullable="0" physicalName="CodigoDaTransportadora" precision="0" referenceCount="1" scale="0" source-column-ref="COL101" sourceDataTypeName="int4" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -556,16 +556,16 @@
     </index>
    </folder>
   </table>
-  <table id="TAB168" populated="true" UUID="e10b2766-4e1b-4466-8de2-5a7f20ef2bc3" name="Clientes" objectType="TABLE" physicalName="Clientes" >
+  <table id="TAB168" populated="true" UUID="e10b2766-4e1b-4466-8de2-5a7f20ef2bc3" name="Dim_Clientes" objectType="TABLE" physicalName="Dim_Clientes" >
    <remarks></remarks>
    <folder id="FOLTAB1681" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL169" populated="true" UUID="8e9ad1a4-6525-4aab-a83a-98aae3c63311" autoIncrement="true" autoIncrementSequenceName="Clientes_SK_cliente_seq_1" defaultValue="" name="SK_cliente" nullable="0" physicalName="SK_cliente" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL169" populated="true" UUID="8e9ad1a4-6525-4aab-a83a-98aae3c63311" autoIncrement="true" autoIncrementSequenceName="Dim_Clientes_SK_cliente_seq" defaultValue="" name="SK_cliente" nullable="0" physicalName="SK_cliente" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL170" populated="true" UUID="52fd2ca7-2a0e-459b-9473-fefac277aa70" autoIncrement="false" defaultValue="" name="NomeDaEmpresa" nullable="1" physicalName="NomeDaEmpresa" precision="40" referenceCount="1" scale="0" source-column-ref="COL13" sourceDataTypeName="bpchar" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
      <remarks></remarks>
     </column>
-    <column id="COL171" populated="true" UUID="bc2ac316-f2a6-4f1a-9ccc-aec7b9a69b24" autoIncrement="false" autoIncrementSequenceName="Clientes_CodigoDoCliente_seq" defaultValue="" name="CodigoDoCliente" nullable="0" physicalName="CodigoDoCliente" precision="5" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+    <column id="COL171" populated="true" UUID="bc2ac316-f2a6-4f1a-9ccc-aec7b9a69b24" autoIncrement="false" autoIncrementSequenceName="Dim_Clientes_CodigoDoCliente_seq" defaultValue="" name="CodigoDoCliente" nullable="0" physicalName="CodigoDoCliente" precision="5" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
      <remarks></remarks>
     </column>
     <column id="COL172" populated="true" UUID="0736f9fd-18a3-400d-83b9-451eee6fafac" autoIncrement="false" defaultValue="" name="NomeDoContato" nullable="1" physicalName="NomeDoContato" precision="30" referenceCount="1" scale="0" source-column-ref="COL14" sourceDataTypeName="bpchar" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
@@ -604,7 +604,7 @@
     <folder id="FOLTAB1682" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB1684" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX182" populated="true" UUID="cde54ee1-c1a9-485b-891d-9d70877c74ea" clustered="false" name="Clientes_pk" physicalName="clientes_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX182" populated="true" UUID="cde54ee1-c1a9-485b-891d-9d70877c74ea" clustered="false" name="Dim_Clientes_pk" physicalName="dim_clientes_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC183" populated="true" UUID="94938524-2630-42fc-a8ab-1cd8c18a2431" ascendingOrDescending="UNSPECIFIED" column-ref="COL169" name="SK_cliente" physicalName="SK_cliente" />
     </index>
    </folder>
@@ -683,9 +683,9 @@
  </compare-dm-settings>
  <create-kettle-job-settings filePath="C:\Users\Marcio\Documents\Bussines\projeto" jobName="resever" schemaName="etapa1" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
-  <table-pane table-ref="TAB119" x="426" y="29" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB119" x="427" y="29" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB132" x="763" y="244" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB147" x="555" y="469" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB147" x="554" y="469" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB159" x="988" y="38" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB168" x="294" y="212" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB184" x="1094" y="477" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>

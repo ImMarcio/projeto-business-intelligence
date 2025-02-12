@@ -20,10 +20,10 @@ CREATE UNIQUE INDEX dim_tempo_idx
  ON public.Tempo
  ( Data );
 
-CREATE SEQUENCE public.clientes_sk_cliente_seq_1;
+CREATE SEQUENCE public.dim_clientes_sk_cliente_seq;
 
-CREATE TABLE public.Clientes (
-                SK_cliente INTEGER NOT NULL DEFAULT nextval('public.clientes_sk_cliente_seq_1'),
+CREATE TABLE public.Dim_Clientes (
+                SK_cliente INTEGER NOT NULL DEFAULT nextval('public.dim_clientes_sk_cliente_seq'),
                 NomeDaEmpresa CHAR(40),
                 CodigoDoCliente CHAR(5) NOT NULL,
                 NomeDoContato CHAR(30),
@@ -36,16 +36,16 @@ CREATE TABLE public.Clientes (
                 Telefone CHAR(24),
                 Fax CHAR(24),
                 PaisISO CHAR(10),
-                CONSTRAINT clientes_pk PRIMARY KEY (SK_cliente)
+                CONSTRAINT dim_clientes_pk PRIMARY KEY (SK_cliente)
 );
 
 
-ALTER SEQUENCE public.clientes_sk_cliente_seq_1 OWNED BY public.Clientes.SK_cliente;
+ALTER SEQUENCE public.dim_clientes_sk_cliente_seq OWNED BY public.Dim_Clientes.SK_cliente;
 
-CREATE SEQUENCE public.transportadoras_sk_transportadora_seq_1;
+CREATE SEQUENCE public.dim_transportadoras_sk_transportadora_seq;
 
-CREATE TABLE public.Transportadoras (
-                SK_transportadora VARCHAR NOT NULL DEFAULT nextval('public.transportadoras_sk_transportadora_seq_1'),
+CREATE TABLE public.Dim_Transportadoras (
+                SK_transportadora INTEGER NOT NULL DEFAULT nextval('public.dim_transportadoras_sk_transportadora_seq'),
                 CodigoDaTransportadora INTEGER NOT NULL,
                 NomeDaEmpresa CHAR(40),
                 Telefone CHAR(24),
@@ -53,16 +53,16 @@ CREATE TABLE public.Transportadoras (
 );
 
 
-ALTER SEQUENCE public.transportadoras_sk_transportadora_seq_1 OWNED BY public.Transportadoras.SK_transportadora;
+ALTER SEQUENCE public.dim_transportadoras_sk_transportadora_seq OWNED BY public.Dim_Transportadoras.SK_transportadora;
 
 CREATE UNIQUE INDEX transportadoras_idx
- ON public.Transportadoras
+ ON public.Dim_Transportadoras
  ( CodigoDaTransportadora );
 
-CREATE SEQUENCE public.produtos_sk_produto_seq;
+CREATE SEQUENCE public.dim_produtos_sk_produto_seq;
 
-CREATE TABLE public.Produtos (
-                SK_Produto INTEGER NOT NULL DEFAULT nextval('public.produtos_sk_produto_seq'),
+CREATE TABLE public.Dim_Produtos (
+                SK_Produto INTEGER NOT NULL DEFAULT nextval('public.dim_produtos_sk_produto_seq'),
                 EmpresaFornecedora CHAR(40),
                 CodigoDoProduto INTEGER NOT NULL,
                 NomeDoProduto CHAR(40),
@@ -73,16 +73,16 @@ CREATE TABLE public.Produtos (
 );
 
 
-ALTER SEQUENCE public.produtos_sk_produto_seq OWNED BY public.Produtos.SK_Produto;
+ALTER SEQUENCE public.dim_produtos_sk_produto_seq OWNED BY public.Dim_Produtos.SK_Produto;
 
 CREATE UNIQUE INDEX produtos_idx
- ON public.Produtos
+ ON public.Dim_Produtos
  ( CodigoDoProduto );
 
-CREATE SEQUENCE public.funcionarios_sk_funcionario_seq;
+CREATE SEQUENCE public.dim_funcionarios_sk_funcionario_seq;
 
-CREATE TABLE public.Funcionarios (
-                SK_Funcionario INTEGER NOT NULL DEFAULT nextval('public.funcionarios_sk_funcionario_seq'),
+CREATE TABLE public.Dim_Funcionarios (
+                SK_Funcionario INTEGER NOT NULL DEFAULT nextval('public.dim_funcionarios_sk_funcionario_seq'),
                 CodigoDoFuncionario INTEGER NOT NULL,
                 NomeCompleto VARCHAR(30) NOT NULL,
                 Cargo CHAR(30),
@@ -94,14 +94,14 @@ CREATE TABLE public.Funcionarios (
 );
 
 
-ALTER SEQUENCE public.funcionarios_sk_funcionario_seq OWNED BY public.Funcionarios.SK_Funcionario;
+ALTER SEQUENCE public.dim_funcionarios_sk_funcionario_seq OWNED BY public.Dim_Funcionarios.SK_Funcionario;
 
 CREATE UNIQUE INDEX funcionarios_idx
- ON public.Funcionarios
+ ON public.Dim_Funcionarios
  ( CodigoDoFuncionario );
 
 CREATE TABLE public.Fatos_Vendas (
-                PrecoTotal VARCHAR NOT NULL,
+                PrecoTotal NUMERIC(14,2) NOT NULL,
                 PrecoUnitario NUMERIC(14,2),
                 Frete NUMERIC(14,2),
                 Quantidade SMALLINT,
@@ -110,7 +110,7 @@ CREATE TABLE public.Fatos_Vendas (
                 SK_produto INTEGER NOT NULL,
                 SK_Cliente INTEGER NOT NULL,
                 SK_Funcionario INTEGER NOT NULL,
-                SK_transportadora VARCHAR NOT NULL,
+                SK_transportadora INTEGER NOT NULL,
                 SK_TempoPedido INTEGER NOT NULL,
                 SK_TempoEntrega INTEGER NOT NULL,
                 SK_TempoEnvio INTEGER NOT NULL
@@ -141,28 +141,28 @@ NOT DEFERRABLE;
 
 ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT clientes_fatos_vendas_fk
 FOREIGN KEY (SK_Cliente)
-REFERENCES public.Clientes (SK_cliente)
+REFERENCES public.Dim_Clientes (SK_cliente)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT transportadoras_fatos_vendas_fk
 FOREIGN KEY (SK_transportadora)
-REFERENCES public.Transportadoras (SK_transportadora)
+REFERENCES public.Dim_Transportadoras (SK_transportadora)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT produtos_fatos_vendas_fk
 FOREIGN KEY (SK_produto)
-REFERENCES public.Produtos (SK_Produto)
+REFERENCES public.Dim_Produtos (SK_Produto)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT pedfun
 FOREIGN KEY (SK_Funcionario)
-REFERENCES public.Funcionarios (SK_Funcionario)
+REFERENCES public.Dim_Funcionarios (SK_Funcionario)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
