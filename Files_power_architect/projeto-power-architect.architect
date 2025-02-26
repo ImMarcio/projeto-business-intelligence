@@ -681,7 +681,7 @@
   <target-stuff   datastoreTypeAsString="DATABASE"   connectName="bi"   filePath=""  />
   <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  </compare-dm-settings>
- <create-kettle-job-settings filePath="C:\Users\Marcio\Documents\Bussines\projeto" jobName="resever" schemaName="etapa1" kettleJoinType="0" savingToFile="true" />
+ <create-kettle-job-settings filePath="C:\Users\Marcio\Documents\Bussines\projeto" jobName="tranformation" schemaName="etapa1" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB119" x="427" y="29" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB132" x="763" y="244" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>

@@ -604,7 +604,7 @@
     <folder id="FOLTAB1682" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB1684" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX182" populated="true" UUID="cde54ee1-c1a9-485b-891d-9d70877c74ea" clustered="false" name="Dim_Clientes_pk" physicalName="clientes_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX182" populated="true" UUID="cde54ee1-c1a9-485b-891d-9d70877c74ea" clustered="false" name="Dim_Clientes_pk" physicalName="dim_clientes_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC183" populated="true" UUID="94938524-2630-42fc-a8ab-1cd8c18a2431" ascendingOrDescending="UNSPECIFIED" column-ref="COL169" name="SK_cliente" physicalName="SK_cliente" />
     </index>
    </folder>
@@ -651,30 +651,30 @@
    </folder>
   </table>
   <relationships>
-   <relationship id="REL197" populated="true" UUID="98d94870-dd2f-4a86-9df6-4ca40c6785ed" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="PEDFUN" physicalName="PEDFUN" pk-table-ref="TAB119" pkCardinality="2" updateRule="3" >
+   <relationship id="REL197" populated="true" UUID="98d94870-dd2f-4a86-9df6-4ca40c6785ed" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="PEDFUN" physicalName="pedfun" pk-table-ref="TAB119" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP198" populated="true" UUID="73e54174-2c33-445a-be70-1360b0360db0" fk-column-ref="COL141" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL120" />
    </relationship>
-   <relationship id="REL199" populated="true" UUID="ca8b22ef-957f-4574-93e7-2b5f69e9226a" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Produtos_Fatos_Vendas_fk" physicalName="Produtos_Fatos_Vendas_fk" pk-table-ref="TAB147" pkCardinality="2" updateRule="3" >
+   <relationship id="REL199" populated="true" UUID="ca8b22ef-957f-4574-93e7-2b5f69e9226a" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Produtos_Fatos_Vendas_fk" physicalName="produtos_fatos_vendas_fk" pk-table-ref="TAB147" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP200" populated="true" UUID="4a1e01c0-8635-438c-9f42-23a34a7b3d5d" fk-column-ref="COL139" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL148" />
    </relationship>
-   <relationship id="REL201" populated="true" UUID="f6d91746-8f83-4a70-a03c-11b447f66336" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Transportadoras_Fatos_Vendas_fk" physicalName="Transportadoras_Fatos_Vendas_fk" pk-table-ref="TAB159" pkCardinality="2" updateRule="3" >
+   <relationship id="REL201" populated="true" UUID="f6d91746-8f83-4a70-a03c-11b447f66336" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Transportadoras_Fatos_Vendas_fk" physicalName="transportadoras_fatos_vendas_fk" pk-table-ref="TAB159" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP202" populated="true" UUID="6e535d22-be14-4cd6-8011-783158bcc533" fk-column-ref="COL142" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL160" />
    </relationship>
-   <relationship id="REL203" populated="true" UUID="c854e817-07fd-4829-bd8c-8dcd652b6bb2" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Clientes_Fatos_Vendas_fk" physicalName="Clientes_Fatos_Vendas_fk" pk-table-ref="TAB168" pkCardinality="2" updateRule="3" >
+   <relationship id="REL203" populated="true" UUID="c854e817-07fd-4829-bd8c-8dcd652b6bb2" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Clientes_Fatos_Vendas_fk" physicalName="clientes_fatos_vendas_fk" pk-table-ref="TAB168" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP204" populated="true" UUID="cc2b6492-f4f6-4b05-a801-2df6a5fa9028" fk-column-ref="COL140" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL169" />
    </relationship>
-   <relationship id="REL205" populated="true" UUID="ff35c989-77bf-43e1-8beb-2ab6371801d3" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Dim_Tempo_Fatos_Vendas_fk" physicalName="Dim_Tempo_Fatos_Vendas_fk" pk-table-ref="TAB184" pkCardinality="2" updateRule="3" >
+   <relationship id="REL205" populated="true" UUID="ff35c989-77bf-43e1-8beb-2ab6371801d3" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Dim_Tempo_Fatos_Vendas_fk" physicalName="dim_tempo_fatos_vendas_fk" pk-table-ref="TAB184" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP206" populated="true" UUID="5985b757-55a8-4444-9804-b41d79f50015" fk-column-ref="COL143" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL185" />
    </relationship>
-   <relationship id="REL207" populated="true" UUID="0b0dd672-2090-4098-b8a0-1f0ce3ddb882" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Tempo_Fatos_Vendas_fk" physicalName="Tempo_Fatos_Vendas_fk" pk-table-ref="TAB184" pkCardinality="2" updateRule="3" >
+   <relationship id="REL207" populated="true" UUID="0b0dd672-2090-4098-b8a0-1f0ce3ddb882" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Tempo_Fatos_Vendas_fk" physicalName="tempo_fatos_vendas_fk" pk-table-ref="TAB184" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP208" populated="true" UUID="00b120f0-68a5-44d7-9882-f0f0e3747ade" fk-column-ref="COL144" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL185" />
    </relationship>
-   <relationship id="REL209" populated="true" UUID="f0709b87-0389-4141-8754-d27470db36cb" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Tempo_Fatos_Vendas_fk1" physicalName="Tempo_Fatos_Vendas_fk1" pk-table-ref="TAB184" pkCardinality="2" updateRule="3" >
+   <relationship id="REL209" populated="true" UUID="f0709b87-0389-4141-8754-d27470db36cb" deferrability="7" deleteRule="3" fk-table-ref="TAB132" fkCardinality="7" identifying="false" name="Tempo_Fatos_Vendas_fk1" physicalName="tempo_fatos_vendas_fk1" pk-table-ref="TAB184" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP210" populated="true" UUID="3817d10e-5514-4d9d-a23c-9c70754b90c7" fk-column-ref="COL145" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL185" />
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <compare-dm-settings  ddlGenerator="ca.sqlpower.architect.ddl.PostgresDDLGenerator"  outputFormatAsString="SQL"  saveFlag="true" >
   <source-stuff   datastoreTypeAsString="DATABASE"   connectName="bi"   filePath=""  />
