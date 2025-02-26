@@ -813,7 +813,7 @@ FROM "public"."tempo"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
+      <xloc>496</xloc>
       <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>

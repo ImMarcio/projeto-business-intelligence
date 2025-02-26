@@ -388,8 +388,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>368</xloc>
-      <yloc>128</yloc>
+      <xloc>416</xloc>
+      <yloc>192</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
@@ -422,12 +422,12 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>432</xloc>
-      <yloc>208</yloc>
+      <xloc>576</xloc>
+      <yloc>176</yloc>
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>email de erro</name>
+      <name>email de inicialização</name>
       <description/>
       <type>MAIL</type>
       <attributes/>
@@ -465,31 +465,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>240</xloc>
-      <yloc>208</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
-      <name>Simple evaluation</name>
-      <description/>
-      <type>SIMPLE_EVAL</type>
-      <attributes/>
-      <valuetype>field</valuetype>
-      <fieldname/>
-      <variablename/>
-      <fieldtype>string</fieldtype>
-      <mask/>
-      <comparevalue>true</comparevalue>
-      <minvalue/>
-      <maxvalue/>
-      <successcondition>different</successcondition>
-      <successnumbercondition>equal</successnumbercondition>
-      <successbooleancondition>false</successbooleancondition>
-      <successwhenvarset>N</successwhenvarset>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>528</xloc>
+      <xloc>288</xloc>
       <yloc>208</yloc>
       <attributes_kjc/>
     </entry>
@@ -505,17 +481,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Success</from>
-      <to>Simple evaluation</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>Start</from>
-      <to>email de erro</to>
+      <to>email de inicialização</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -523,7 +490,7 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>email de erro</from>
+      <from>email de inicialização</from>
       <to>carga_dim_clientes</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

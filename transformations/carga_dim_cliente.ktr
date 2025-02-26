@@ -922,7 +922,7 @@ FROM "public"."Clientes"
     </remotesteps>
     <GUI>
       <xloc>528</xloc>
-      <yloc>176</yloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1000,8 +1000,8 @@ FROM "public"."Clientes"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>176</yloc>
+      <xloc>384</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1044,8 +1044,8 @@ FROM "public"."Clientes"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
-      <yloc>208</yloc>
+      <xloc>640</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
