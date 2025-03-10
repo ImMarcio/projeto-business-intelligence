@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>fatos_vendas_transformação</name>
+    <name>carga_fatos_vendas</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,20 +427,20 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2025/02/25 10:19:20.268</created_date>
+    <created_date>2025/03/09 21:09:36.155</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2025/02/25 10:19:20.268</modified_date>
+    <modified_date>2025/03/09 21:09:36.155</modified_date>
     <key_for_session_key>H4sIAAAAAAAA/wMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>data-base-dimensional</name>
+    <name>dimen</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>data-base-dimensional</database>
+    <database>dimen</database>
     <port>5432</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
@@ -457,6 +457,10 @@
         <attribute>N</attribute>
       </attribute>
       <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
         <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
         <attribute>N</attribute>
       </attribute>
@@ -465,16 +469,20 @@
         <attribute>5432</attribute>
       </attribute>
       <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
         <code>QUOTE_ALL_FIELDS</code>
         <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>N</attribute>
+        <attribute>Y</attribute>
       </attribute>
       <attribute>
         <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>N</attribute>
+        <attribute>Y</attribute>
       </attribute>
       <attribute>
         <code>USE_POOLING</code>
@@ -483,11 +491,11 @@
     </attributes>
   </connection>
   <connection>
-    <name>database-northwind</name>
+    <name>northwind</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>database-northwind</database>
+    <database>northwind</database>
     <port>5432</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
@@ -531,48 +539,38 @@
   </connection>
   <order>
     <hop>
-      <from>pedidos input</from>
-      <to>Sort rows 2</to>
+      <from>pedidos</from>
+      <to>pedido_detalhes</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 2</from>
-      <to>pedido_+_detalhes_de_pedidos</to>
+      <from>detalhes_pedidos</from>
+      <to>pedido_detalhes</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>detalhes_do_pedido</from>
-      <to>Sort rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows</from>
-      <to>pedido_+_detalhes_de_pedidos</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>pedido_+_detalhes_de_pedidos</from>
-      <to>Merge join</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>funcionarios input</from>
-      <to>Merge join</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Merge join</from>
+      <from>pedido_detalhes</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Select values</from>
-      <to>data_pedido</to>
+      <to>cliente lookup</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>data_pedido</from>
-      <to>data_envio</to>
+      <from>cliente lookup</from>
+      <to>funcionario lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>funcionario lookup</from>
+      <to>transportadora lookpup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>transportadora lookpup</from>
+      <to>produto lookup</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -581,111 +579,31 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>data_entrega</from>
-      <to>Calculator</to>
+      <from>data_pedido</from>
+      <to>data_envio</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Calculator</from>
+      <from>produto lookup</from>
+      <to>data_pedido</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>data_entrega</from>
+      <to>calculo dos valores</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>calculo dos valores</from>
       <to>Select values 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Select values 2</from>
-      <to>fatos_vendas input</to>
+      <to>fatos_vendas</to>
       <enabled>Y</enabled>
     </hop>
   </order>
-  <step>
-    <name>Calculator</name>
-    <type>Calculator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>subtotal</field_name>
-      <calc_type>MULTIPLY</calc_type>
-      <field_a>Quantidade</field_a>
-      <field_b>PrecoUnitario</field_b>
-      <field_c/>
-      <value_type>None</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>precototal</field_name>
-      <calc_type>SUBTRACT</calc_type>
-      <field_a>subtotal</field_a>
-      <field_b>Desconto</field_b>
-      <field_c/>
-      <value_type>None</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>992</xloc>
-      <yloc>272</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>pedido_+_detalhes_de_pedidos</step1>
-    <step2>funcionarios input</step2>
-    <keys_1>
-      <key>CodigoDoFuncionario</key>
-    </keys_1>
-    <keys_2>
-      <key>CodigoDoFuncionario</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>512</xloc>
-      <yloc>272</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
   <step>
     <name>Select values</name>
     <type>SelectValues</type>
@@ -723,27 +641,6 @@
         <name>Frete</name>
       </field>
       <field>
-        <name>NomeDoDestinatario</name>
-      </field>
-      <field>
-        <name>EnderecoDoDestinatario</name>
-      </field>
-      <field>
-        <name>CidadeDeDestino</name>
-      </field>
-      <field>
-        <name>RegiaoDeDestino</name>
-      </field>
-      <field>
-        <name>CEPdeDestino</name>
-      </field>
-      <field>
-        <name>PaisDeDestino</name>
-      </field>
-      <field>
-        <name>NumeroDoPedido_1</name>
-      </field>
-      <field>
         <name>CodigoDoProduto</name>
       </field>
       <field>
@@ -754,57 +651,6 @@
       </field>
       <field>
         <name>Desconto</name>
-      </field>
-      <field>
-        <name>CodigoDoFuncionario_1</name>
-      </field>
-      <field>
-        <name>Sobrenome</name>
-      </field>
-      <field>
-        <name>Nome</name>
-      </field>
-      <field>
-        <name>Cargo</name>
-      </field>
-      <field>
-        <name>Tratamento</name>
-      </field>
-      <field>
-        <name>DataDeNascimento</name>
-      </field>
-      <field>
-        <name>DataDeContratacao</name>
-      </field>
-      <field>
-        <name>Endereco</name>
-      </field>
-      <field>
-        <name>Cidade</name>
-      </field>
-      <field>
-        <name>Regiao</name>
-      </field>
-      <field>
-        <name>CEP</name>
-      </field>
-      <field>
-        <name>Pais</name>
-      </field>
-      <field>
-        <name>TelefoneResidencial</name>
-      </field>
-      <field>
-        <name>Ramal</name>
-      </field>
-      <field>
-        <name>Foto</name>
-      </field>
-      <field>
-        <name>Observacoes</name>
-      </field>
-      <field>
-        <name>Supervisor</name>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -817,7 +663,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>656</xloc>
+      <xloc>384</xloc>
       <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
@@ -835,47 +681,60 @@
     </partitioning>
     <fields>
       <field>
-        <name>CodigoDoCliente</name>
-        <rename>sk_cliente</rename>
-      </field>
-      <field>
-        <name>CodigoDoFuncionario</name>
-        <rename>sk_funcionario</rename>
-      </field>
-      <field>
-        <name>Via</name>
-        <rename>sk_transportadora</rename>
+        <name>NumeroDoPedido</name>
+        <rename/>
       </field>
       <field>
         <name>Frete</name>
-      </field>
-      <field>
-        <name>CodigoDoProduto</name>
-        <rename>sk_produto</rename>
+        <rename/>
       </field>
       <field>
         <name>PrecoUnitario</name>
+        <rename/>
       </field>
       <field>
         <name>Quantidade</name>
+        <rename/>
       </field>
       <field>
-        <name>Desconto</name>
+        <name>sk_cliente</name>
+        <rename/>
+      </field>
+      <field>
+        <name>sk_funcionario</name>
+        <rename/>
+      </field>
+      <field>
+        <name>sk_transportadora</name>
+        <rename/>
+      </field>
+      <field>
+        <name>sk_produto</name>
+        <rename/>
       </field>
       <field>
         <name>sk_tempopedido</name>
+        <rename/>
       </field>
       <field>
         <name>sk_tempoenvio</name>
+        <rename/>
       </field>
       <field>
         <name>sk_tempoentrega</name>
+        <rename/>
       </field>
       <field>
-        <name>precototal</name>
+        <name>valorliquido</name>
+        <rename/>
       </field>
       <field>
-        <name>PaisDeDestino</name>
+        <name>valorbruto</name>
+        <rename/>
+      </field>
+      <field>
+        <name>descontoTotal</name>
+        <rename>desconto</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -888,14 +747,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1104</xloc>
-      <yloc>272</yloc>
+      <xloc>912</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows</name>
-    <type>SortRows</type>
+    <name>calculo dos valores</name>
+    <type>Calculator</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -904,55 +763,52 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>NumeroDoPedido</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>CodigoDoProduto</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>PrecoUnitario</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>Quantidade</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>Desconto</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>valorbruto</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>Quantidade</field_a>
+      <field_b>PrecoUnitario</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>descontoTotal</field_name>
+      <calc_type>MULTIPLY</calc_type>
+      <field_a>valorbruto</field_a>
+      <field_b>Desconto</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>valorliquido</field_name>
+      <calc_type>SUBTRACT</calc_type>
+      <field_a>valorbruto</field_a>
+      <field_b>descontoTotal</field_b>
+      <field_c/>
+      <value_type>None</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -962,14 +818,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>336</yloc>
+      <xloc>864</xloc>
+      <yloc>480</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
+    <name>cliente lookup</name>
+    <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -978,127 +834,29 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>NumeroDoPedido</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
+    <connection>dimen</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>public</schema>
+      <table>clientes</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
         <name>CodigoDoCliente</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>CodigoDoFuncionario</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>DataDoPedido</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>DataDeEntrega</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>DataDeEnvio</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>Via</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>Frete</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>NomeDoDestinatario</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>EnderecoDoDestinatario</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>CidadeDeDestino</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>RegiaoDeDestino</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>CEPdeDestino</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>PaisDeDestino</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
+        <field>codigodocliente</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>sk_cliente</name>
+        <rename>sk_cliente</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1108,8 +866,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>240</yloc>
+      <xloc>480</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1124,7 +882,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>database-northwind</connection>
+    <connection>dimen</connection>
     <cache>N</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
@@ -1156,8 +914,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>912</xloc>
-      <yloc>272</yloc>
+      <xloc>864</xloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1172,7 +930,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>database-northwind</connection>
+    <connection>dimen</connection>
     <cache>N</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
@@ -1204,8 +962,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>832</xloc>
-      <yloc>272</yloc>
+      <xloc>736</xloc>
+      <yloc>560</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1220,7 +978,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>database-northwind</connection>
+    <connection>dimen</connection>
     <cache>N</cache>
     <cache_load_all>N</cache_load_all>
     <cache_size>0</cache_size>
@@ -1252,13 +1010,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>752</xloc>
-      <yloc>256</yloc>
+      <xloc>656</xloc>
+      <yloc>512</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>detalhes_do_pedido</name>
+    <name>detalhes_pedidos</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1268,7 +1026,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>database-northwind</connection>
+    <connection>northwind</connection>
     <sql>SELECT *
 FROM "public"."Detalhes do Pedido"
 </sql>
@@ -1285,7 +1043,7 @@ FROM "public"."Detalhes do Pedido"
         <name>NumeroDoPedido</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>detalhes_do_pedido</origin>
+        <origin>pedidos 2</origin>
         <comments>NumeroDoPedido</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1308,7 +1066,7 @@ FROM "public"."Detalhes do Pedido"
         <name>CodigoDoProduto</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>detalhes_do_pedido</origin>
+        <origin>pedidos 2</origin>
         <comments>CodigoDoProduto</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1331,7 +1089,7 @@ FROM "public"."Detalhes do Pedido"
         <name>PrecoUnitario</name>
         <length>14</length>
         <precision>2</precision>
-        <origin>detalhes_do_pedido</origin>
+        <origin>pedidos 2</origin>
         <comments>PrecoUnitario</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1354,7 +1112,7 @@ FROM "public"."Detalhes do Pedido"
         <name>Quantidade</name>
         <length>4</length>
         <precision>0</precision>
-        <origin>detalhes_do_pedido</origin>
+        <origin>pedidos 2</origin>
         <comments>Quantidade</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1377,7 +1135,7 @@ FROM "public"."Detalhes do Pedido"
         <name>Desconto</name>
         <length>14</length>
         <precision>2</precision>
-        <origin>detalhes_do_pedido</origin>
+        <origin>pedidos 2</origin>
         <comments>Desconto</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1404,13 +1162,13 @@ FROM "public"."Detalhes do Pedido"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>112</xloc>
-      <yloc>336</yloc>
+      <xloc>64</xloc>
+      <yloc>320</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>fatos_vendas input</name>
+    <name>fatos_vendas</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1420,7 +1178,7 @@ FROM "public"."Detalhes do Pedido"
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>data-base-dimensional</connection>
+    <connection>dimen</connection>
     <schema>public</schema>
     <table>fatos_vendas</table>
     <commit>1000</commit>
@@ -1448,14 +1206,14 @@ FROM "public"."Detalhes do Pedido"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1216</xloc>
-      <yloc>272</yloc>
+      <xloc>1056</xloc>
+      <yloc>304</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>funcionarios input</name>
-    <type>TableInput</type>
+    <name>funcionario lookup</name>
+    <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1464,409 +1222,29 @@ FROM "public"."Detalhes do Pedido"
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>database-northwind</connection>
-    <sql>SELECT *
-FROM "public"."Funcionarios"
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
+    <connection>dimen</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>public</schema>
+      <table>funcionarios</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
         <name>CodigoDoFuncionario</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>Table input</origin>
-        <comments>CodigoDoFuncionario</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Sobrenome</name>
-        <length>20</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Sobrenome</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Nome</name>
-        <length>10</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Nome</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Cargo</name>
-        <length>30</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Cargo</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Tratamento</name>
-        <length>30</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Tratamento</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Date</type>
-        <storagetype>normal</storagetype>
-        <name>DataDeNascimento</name>
-        <length>-1</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>DataDeNascimento</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Date</type>
-        <storagetype>normal</storagetype>
-        <name>DataDeContratacao</name>
-        <length>-1</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>DataDeContratacao</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Endereco</name>
-        <length>60</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Endereco</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Cidade</name>
-        <length>15</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Cidade</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Regiao</name>
-        <length>15</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Regiao</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>CEP</name>
-        <length>10</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>CEP</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Pais</name>
-        <length>15</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Pais</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>TelefoneResidencial</name>
-        <length>24</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>TelefoneResidencial</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Ramal</name>
-        <length>4</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Ramal</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Foto</name>
-        <length>255</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Foto</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>Observacoes</name>
-        <length>600</length>
-        <precision>-1</precision>
-        <origin>Table input</origin>
-        <comments>Observacoes</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>Supervisor</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>Table input</origin>
-        <comments>Supervisor</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>pt_BR</date_format_locale>
-        <date_format_timezone>America/Fortaleza</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
+        <field>codigodofuncionario</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>sk_funcionario</name>
+        <rename>sk_funcionario</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1876,13 +1254,13 @@ FROM "public"."Funcionarios"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>512</xloc>
-      <yloc>416</yloc>
+      <xloc>576</xloc>
+      <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>pedido_+_detalhes_de_pedidos</name>
+    <name>pedido_detalhes</name>
     <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -1893,8 +1271,8 @@ FROM "public"."Funcionarios"
       <schema_name/>
     </partitioning>
     <join_type>INNER</join_type>
-    <step1>Sort rows 2</step1>
-    <step2>Sort rows</step2>
+    <step1>pedidos</step1>
+    <step2>detalhes_pedidos</step2>
     <keys_1>
       <key>NumeroDoPedido</key>
     </keys_1>
@@ -1910,13 +1288,13 @@ FROM "public"."Funcionarios"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>304</xloc>
+      <xloc>240</xloc>
       <yloc>272</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>pedidos input</name>
+    <name>pedidos</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1926,7 +1304,7 @@ FROM "public"."Funcionarios"
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>database-northwind</connection>
+    <connection>northwind</connection>
     <sql>SELECT *
 FROM "public"."Pedidos"
 </sql>
@@ -2269,8 +1647,104 @@ FROM "public"."Pedidos"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>112</xloc>
-      <yloc>240</yloc>
+      <xloc>64</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>produto lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dimen</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>public</schema>
+      <table>produtos</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CodigoDoProduto</name>
+        <field>codigodoproduto</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>sk_produto</name>
+        <rename>sk_produto</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>384</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>transportadora lookpup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dimen</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>public</schema>
+      <table>transportadoras</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>Via</name>
+        <field>codigodatransportadora</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>sk_transportadora</name>
+        <rename>sk_transportadora</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
