@@ -1,168 +1,151 @@
 
-CREATE SEQUENCE public.tempo_sk_tempo_seq;
+CREATE SEQUENCE transportadoras_sk_transportadora_seq;
 
-CREATE TABLE public.Tempo (
-                SK_Tempo INTEGER NOT NULL DEFAULT nextval('public.tempo_sk_tempo_seq'),
-                Data DATE NOT NULL,
-                Ano INTEGER NOT NULL,
-                Mes INTEGER NOT NULL,
-                Dia INTEGER NOT NULL,
-                Trimestre INTEGER NOT NULL,
-                DiadaSemana VARCHAR NOT NULL,
-                NomeDoMes VARCHAR NOT NULL,
-                CONSTRAINT tempo_pk PRIMARY KEY (SK_Tempo)
+CREATE TABLE transportadoras (
+                sk_transportadora INTEGER DEFAULT nextval('transportadoras_sk_transportadora_seq'::regclass) NOT NULL DEFAULT nextval('transportadoras_sk_transportadora_seq'),
+                codigodatransportadora INTEGER NOT NULL,
+                nomedaempresa CHAR(40),
+                data_from TIMESTAMP,
+                data_to TIMESTAMP,
+                version INTEGER,
+                CONSTRAINT trask PRIMARY KEY (sk_transportadora)
 );
 
 
-ALTER SEQUENCE public.tempo_sk_tempo_seq OWNED BY public.Tempo.SK_Tempo;
+ALTER SEQUENCE transportadoras_sk_transportadora_seq OWNED BY transportadoras.sk_transportadora;
 
-CREATE UNIQUE INDEX dim_tempo_idx
- ON public.Tempo
- ( Data );
+CREATE SEQUENCE funcionarios_sk_funcionario_seq;
 
-CREATE SEQUENCE public.dim_clientes_sk_cliente_seq;
-
-CREATE TABLE public.Dim_Clientes (
-                SK_cliente INTEGER NOT NULL DEFAULT nextval('public.dim_clientes_sk_cliente_seq'),
-                NomeDaEmpresa CHAR(40),
-                CodigoDoCliente CHAR(5) NOT NULL,
-                NomeDoContato CHAR(30),
-                CargoDoContato CHAR(30),
-                Endereco CHAR(60),
-                Cidade CHAR(15),
-                Regiao CHAR(15),
-                CEP CHAR(10),
-                Pais CHAR(15),
-                Telefone CHAR(24),
-                Fax CHAR(24),
-                PaisISO CHAR(10),
-                CONSTRAINT dim_clientes_pk PRIMARY KEY (SK_cliente)
+CREATE TABLE funcionarios (
+                sk_funcionario INTEGER DEFAULT nextval('funcionarios_sk_funcionario_seq'::regclass) NOT NULL DEFAULT nextval('funcionarios_sk_funcionario_seq'),
+                codigodofuncionario INTEGER NOT NULL,
+                nome_completo VARCHAR(20),
+                data_from TIMESTAMP,
+                version INTEGER,
+                data_to TIMESTAMP,
+                CONSTRAINT funpk PRIMARY KEY (sk_funcionario)
 );
 
 
-ALTER SEQUENCE public.dim_clientes_sk_cliente_seq OWNED BY public.Dim_Clientes.SK_cliente;
+ALTER SEQUENCE funcionarios_sk_funcionario_seq OWNED BY funcionarios.sk_funcionario;
 
-CREATE SEQUENCE public.dim_transportadoras_sk_transportadora_seq;
+CREATE SEQUENCE produtos_sk_produto_seq;
 
-CREATE TABLE public.Dim_Transportadoras (
-                SK_transportadora INTEGER NOT NULL DEFAULT nextval('public.dim_transportadoras_sk_transportadora_seq'),
-                CodigoDaTransportadora INTEGER NOT NULL,
-                NomeDaEmpresa CHAR(40),
-                Telefone CHAR(24),
-                CONSTRAINT trask PRIMARY KEY (SK_transportadora)
+CREATE TABLE produtos (
+                sk_produto INTEGER DEFAULT nextval('produtos_sk_produto_seq'::regclass) NOT NULL DEFAULT nextval('produtos_sk_produto_seq'),
+                codigodoproduto INTEGER NOT NULL,
+                nomedoproduto CHAR(40),
+                fornecedor VARCHAR(30) NOT NULL,
+                version INTEGER,
+                data_from TIMESTAMP,
+                data_to TIMESTAMP,
+                categoria VARCHAR(30) NOT NULL,
+                CONSTRAINT prodpk PRIMARY KEY (sk_produto)
 );
 
 
-ALTER SEQUENCE public.dim_transportadoras_sk_transportadora_seq OWNED BY public.Dim_Transportadoras.SK_transportadora;
+ALTER SEQUENCE produtos_sk_produto_seq OWNED BY produtos.sk_produto;
 
-CREATE UNIQUE INDEX transportadoras_idx
- ON public.Dim_Transportadoras
- ( CodigoDaTransportadora );
+CREATE SEQUENCE clientes_sk_cliente_seq;
 
-CREATE SEQUENCE public.dim_produtos_sk_produto_seq;
-
-CREATE TABLE public.Dim_Produtos (
-                SK_Produto INTEGER NOT NULL DEFAULT nextval('public.dim_produtos_sk_produto_seq'),
-                EmpresaFornecedora CHAR(40),
-                CodigoDoProduto INTEGER NOT NULL,
-                NomeDoProduto CHAR(40),
-                QuantidadePorUnidade CHAR(25),
-                PrecoUnitario NUMERIC(10,2),
-                Categoria VARCHAR NOT NULL,
-                CONSTRAINT prodpk PRIMARY KEY (SK_Produto)
+CREATE TABLE clientes (
+                sk_cliente INTEGER DEFAULT nextval('clientes_sk_cliente_seq'::regclass) NOT NULL DEFAULT nextval('clientes_sk_cliente_seq'),
+                codigodocliente CHAR(5) NOT NULL,
+                cidade CHAR(15) DEFAULT 'Não Informado'::bpchar,
+                regiao CHAR(15) DEFAULT 'Não Informado'::bpchar,
+                pais CHAR(15) DEFAULT 'Não Informado'::bpchar,
+                paisiso CHAR(10),
+                version INTEGER,
+                data_from TIMESTAMP,
+                data_to TIMESTAMP,
+                nome VARCHAR(50),
+                CONSTRAINT clientes_pk PRIMARY KEY (sk_cliente)
 );
 
 
-ALTER SEQUENCE public.dim_produtos_sk_produto_seq OWNED BY public.Dim_Produtos.SK_Produto;
+ALTER SEQUENCE clientes_sk_cliente_seq OWNED BY clientes.sk_cliente;
 
-CREATE UNIQUE INDEX produtos_idx
- ON public.Dim_Produtos
- ( CodigoDoProduto );
+CREATE SEQUENCE tempo_sk_tempo_seq;
 
-CREATE SEQUENCE public.dim_funcionarios_sk_funcionario_seq;
-
-CREATE TABLE public.Dim_Funcionarios (
-                SK_Funcionario INTEGER NOT NULL DEFAULT nextval('public.dim_funcionarios_sk_funcionario_seq'),
-                CodigoDoFuncionario INTEGER NOT NULL,
-                NomeCompleto VARCHAR(30) NOT NULL,
-                Cargo CHAR(30),
-                DataDeNascimento DATE,
-                DataDeContratacao DATE,
-                CEP CHAR(10),
-                Pais CHAR(15),
-                CONSTRAINT funpk PRIMARY KEY (SK_Funcionario)
+CREATE TABLE tempo (
+                sk_tempo INTEGER DEFAULT nextval('tempo_sk_tempo_seq'::regclass) NOT NULL DEFAULT nextval('tempo_sk_tempo_seq'),
+                data DATE NOT NULL,
+                ano INTEGER NOT NULL,
+                mes INTEGER NOT NULL,
+                dia INTEGER NOT NULL,
+                trimestre INTEGER NOT NULL,
+                diadasemana VARCHAR(2147483647) NOT NULL,
+                nomedomes VARCHAR(2147483647) NOT NULL,
+                CONSTRAINT tempo_pk PRIMARY KEY (sk_tempo)
 );
 
 
-ALTER SEQUENCE public.dim_funcionarios_sk_funcionario_seq OWNED BY public.Dim_Funcionarios.SK_Funcionario;
+ALTER SEQUENCE tempo_sk_tempo_seq OWNED BY tempo.sk_tempo;
 
-CREATE UNIQUE INDEX funcionarios_idx
- ON public.Dim_Funcionarios
- ( CodigoDoFuncionario );
-
-CREATE TABLE public.Fatos_Vendas (
-                PrecoTotal NUMERIC(14,2) NOT NULL,
-                PrecoUnitario NUMERIC(14,2),
-                Frete NUMERIC(14,2),
-                Quantidade SMALLINT,
-                Desconto NUMERIC(14,2),
-                PaisDeDestino CHAR(15),
-                SK_produto INTEGER NOT NULL,
-                SK_Cliente INTEGER NOT NULL,
-                SK_Funcionario INTEGER NOT NULL,
-                SK_transportadora INTEGER NOT NULL,
-                SK_TempoPedido INTEGER NOT NULL,
-                SK_TempoEntrega INTEGER NOT NULL,
-                SK_TempoEnvio INTEGER NOT NULL
+CREATE TABLE fatos_vendas (
+                numerodopedido INTEGER NOT NULL,
+                sk_cliente INTEGER NOT NULL,
+                sk_transportadora INTEGER NOT NULL,
+                sk_produto INTEGER NOT NULL,
+                sk_funcionario INTEGER NOT NULL,
+                sk_tempopedido INTEGER NOT NULL,
+                sk_tempoentrega INTEGER NOT NULL,
+                sk_tempoenvio INTEGER NOT NULL,
+                frete NUMERIC(14,2),
+                precounitario NUMERIC(14,2),
+                quantidade SMALLINT,
+                valorbruto NUMERIC(14,2) NOT NULL,
+                desconto NUMERIC(14,2),
+                valorliquido NUMERIC(14,2) NOT NULL,
+                CONSTRAINT pedpk PRIMARY KEY (numerodopedido, sk_cliente, sk_transportadora, sk_produto, sk_funcionario, sk_tempopedido, sk_tempoentrega, sk_tempoenvio)
 );
-COMMENT ON COLUMN public.Fatos_Vendas.SK_TempoPedido IS 'Data de venda geral';
 
 
-ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT dim_tempo_fatos_vendas_fk
-FOREIGN KEY (SK_TempoPedido)
-REFERENCES public.Tempo (SK_Tempo)
+ALTER TABLE fatos_vendas ADD CONSTRAINT transportadoras_pedidos_fk
+FOREIGN KEY (sk_transportadora)
+REFERENCES transportadoras (sk_transportadora)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT tempo_fatos_vendas_fk
-FOREIGN KEY (SK_TempoEntrega)
-REFERENCES public.Tempo (SK_Tempo)
+ALTER TABLE fatos_vendas ADD CONSTRAINT funcionarios_pedidos_fk
+FOREIGN KEY (sk_funcionario)
+REFERENCES funcionarios (sk_funcionario)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT tempo_fatos_vendas_fk1
-FOREIGN KEY (SK_TempoEnvio)
-REFERENCES public.Tempo (SK_Tempo)
+ALTER TABLE fatos_vendas ADD CONSTRAINT produtos_pedidos_fk
+FOREIGN KEY (sk_produto)
+REFERENCES produtos (sk_produto)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT clientes_fatos_vendas_fk
-FOREIGN KEY (SK_Cliente)
-REFERENCES public.Dim_Clientes (SK_cliente)
+ALTER TABLE fatos_vendas ADD CONSTRAINT clientes_pedidos_fk
+FOREIGN KEY (sk_cliente)
+REFERENCES clientes (sk_cliente)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT transportadoras_fatos_vendas_fk
-FOREIGN KEY (SK_transportadora)
-REFERENCES public.Dim_Transportadoras (SK_transportadora)
+ALTER TABLE fatos_vendas ADD CONSTRAINT tempo_pedidos_fk
+FOREIGN KEY (sk_tempopedido)
+REFERENCES tempo (sk_tempo)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT produtos_fatos_vendas_fk
-FOREIGN KEY (SK_produto)
-REFERENCES public.Dim_Produtos (SK_Produto)
+ALTER TABLE fatos_vendas ADD CONSTRAINT tempo_pedidos_fk1
+FOREIGN KEY (sk_tempoentrega)
+REFERENCES tempo (sk_tempo)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.Fatos_Vendas ADD CONSTRAINT pedfun
-FOREIGN KEY (SK_Funcionario)
-REFERENCES public.Dim_Funcionarios (SK_Funcionario)
+ALTER TABLE fatos_vendas ADD CONSTRAINT tempo_pedidos_fk2
+FOREIGN KEY (sk_tempoenvio)
+REFERENCES tempo (sk_tempo)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
