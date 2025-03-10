@@ -6,7 +6,6 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -428,20 +427,20 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2025/02/24 14:58:25.279</created_date>
+    <created_date>2025/03/09 19:38:52.307</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2025/02/24 14:58:25.279</modified_date>
+    <modified_date>2025/03/09 19:38:52.307</modified_date>
     <key_for_session_key>H4sIAAAAAAAA/wMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>data-base-dimensional</name>
+    <name>dim</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>data-base-dimensional</database>
+    <database>dimen</database>
     <port>5432</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
@@ -458,10 +457,6 @@
         <attribute>N</attribute>
       </attribute>
       <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
         <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
         <attribute>N</attribute>
       </attribute>
@@ -470,20 +465,16 @@
         <attribute>5432</attribute>
       </attribute>
       <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
         <code>QUOTE_ALL_FIELDS</code>
         <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
+        <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
+        <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>USE_POOLING</code>
@@ -492,11 +483,11 @@
     </attributes>
   </connection>
   <connection>
-    <name>data-base-northwind</name>
+    <name>northwind</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>database-northwind</database>
+    <database>northwind</database>
     <port>5432</port>
     <username>postgres</username>
     <password>Encrypted 2be98afc86aa7f2e4bb16bd64d980aac9</password>
@@ -513,10 +504,6 @@
         <attribute>N</attribute>
       </attribute>
       <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
         <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
         <attribute>N</attribute>
       </attribute>
@@ -525,20 +512,16 @@
         <attribute>5432</attribute>
       </attribute>
       <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
         <code>QUOTE_ALL_FIELDS</code>
         <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
+        <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
+        <attribute>N</attribute>
       </attribute>
       <attribute>
         <code>USE_POOLING</code>
@@ -548,34 +531,24 @@
   </connection>
   <order>
     <hop>
-      <from>Funcionario input</from>
-      <to>Concatenando nome + sobrenome</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Excluindo Duplicatas</from>
-      <to>Criando código</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Criando código</from>
+      <from>nome_completo_add</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Select values</from>
-      <to>funcionario output</to>
+      <from>funcionario input</from>
+      <to>nome_completo_add</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Concatenando nome + sobrenome</from>
-      <to>Excluindo Duplicatas</to>
+      <from>Select values</from>
+      <to>Dimension lookup/update</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Concatenando nome + sobrenome</name>
-    <type>Calculator</type>
+    <name>Select values</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -584,115 +557,16 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>nomecompleto</field_name>
-      <calc_type>ADD</calc_type>
-      <field_a>Nome</field_a>
-      <field_b>Sobrenome</field_b>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>368</xloc>
-      <yloc>304</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Criando código</name>
-    <type>Sequence</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <valuename>sk_funcionario</valuename>
-    <use_database>N</use_database>
-    <connection>data-base-northwind</connection>
-    <schema/>
-    <seqname>SEQ_</seqname>
-    <use_counter>Y</use_counter>
-    <counter_name/>
-    <start_at>1</start_at>
-    <increment_by>1</increment_by>
-    <max_value>100000</max_value>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>608</xloc>
-      <yloc>272</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Excluindo Duplicatas</name>
-    <type>Unique</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <count_rows>N</count_rows>
-    <count_field/>
-    <reject_duplicate_row>N</reject_duplicate_row>
-    <error_description/>
     <fields>
       <field>
         <name>CodigoDoFuncionario</name>
-        <case_insensitive>N</case_insensitive>
+        <rename/>
       </field>
       <field>
-        <name>Cargo</name>
-        <case_insensitive>N</case_insensitive>
+        <name>nome_completo</name>
+        <rename/>
       </field>
-      <field>
-        <name>DataDeNascimento</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>DataDeContratacao</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>CEP</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>Pais</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
-      <field>
-        <name>nomecompleto</name>
-        <case_insensitive>N</case_insensitive>
-      </field>
+      <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -703,13 +577,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>480</xloc>
-      <yloc>272</yloc>
+      <xloc>704</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Funcionario input</name>
+    <name>funcionario input</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -719,11 +593,11 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>data-base-northwind</connection>
+    <connection>northwind</connection>
     <sql>SELECT *
 FROM "public"."Funcionarios"
 </sql>
-    <limit>1000</limit>
+    <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
     <variables_active>N</variables_active>
@@ -1131,14 +1005,14 @@ FROM "public"."Funcionarios"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>336</yloc>
+      <xloc>384</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
+    <name>nome_completo_add</name>
+    <type>Calculator</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1147,33 +1021,22 @@ FROM "public"."Funcionarios"
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <fields>
-      <field>
-        <name>CodigoDoFuncionario</name>
-      </field>
-      <field>
-        <name>Cargo</name>
-      </field>
-      <field>
-        <name>DataDeNascimento</name>
-      </field>
-      <field>
-        <name>DataDeContratacao</name>
-      </field>
-      <field>
-        <name>CEP</name>
-      </field>
-      <field>
-        <name>Pais</name>
-      </field>
-      <field>
-        <name>nomecompleto</name>
-      </field>
-      <field>
-        <name>sk_funcionario</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>nome_completo</field_name>
+      <calc_type>ADD</calc_type>
+      <field_a>Nome</field_a>
+      <field_b>Sobrenome</field_b>
+      <field_c/>
+      <value_type>String</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1183,14 +1046,14 @@ FROM "public"."Funcionarios"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>768</xloc>
-      <yloc>304</yloc>
+      <xloc>592</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>funcionario output</name>
-    <type>TableOutput</type>
+    <name>Dimension lookup/update</name>
+    <type>DimensionLookup</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1199,25 +1062,43 @@ FROM "public"."Funcionarios"
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>data-base-dimensional</connection>
     <schema>public</schema>
-    <table>dim_funcionarios</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>N</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
+    <table>funcionarios</table>
+    <connection>dim</connection>
+    <commit>100</commit>
+    <update>Y</update>
     <fields>
+      <key>
+        <name>CodigoDoFuncionario</name>
+        <lookup>codigodofuncionario</lookup>
+      </key>
+      <date>
+        <name/>
+        <from>data_from</from>
+        <to>data_to</to>
+      </date>
+      <field>
+        <name>nome_completo</name>
+        <lookup>nome_completo</lookup>
+        <update>Punch through</update>
+      </field>
+      <return>
+        <name>sk_funcionario</name>
+        <rename/>
+        <creation_method>tablemax</creation_method>
+        <use_autoinc>N</use_autoinc>
+        <version>version</version>
+      </return>
     </fields>
+    <sequence/>
+    <min_year>1900</min_year>
+    <max_year>2199</max_year>
+    <cache_size>5000</cache_size>
+    <preload_cache>N</preload_cache>
+    <use_start_date_alternative>N</use_start_date_alternative>
+    <start_date_alternative>none</start_date_alternative>
+    <start_date_field_name/>
+    <useBatch>N</useBatch>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -1227,8 +1108,8 @@ FROM "public"."Funcionarios"
       </output>
     </remotesteps>
     <GUI>
-      <xloc>864</xloc>
-      <yloc>336</yloc>
+      <xloc>816</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1237,9 +1118,5 @@ FROM "public"."Funcionarios"
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>
   <slave_transformation>N</slave_transformation>
-  <attributes>
-    <group>
-      <name>explorerState</name>
-    </group>
-  </attributes>
+  <attributes/>
 </transformation>

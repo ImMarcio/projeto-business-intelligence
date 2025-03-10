@@ -382,7 +382,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transfor\carga_dim_cliente.ktr</filename>
+      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transformations\carga_dim_cliente.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -421,7 +421,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transfor\carga_dim_funcionario.ktr</filename>
+      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transformations\carga_dim_funcionario.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -460,7 +460,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transfor\carga_dim_tempo.ktr</filename>
+      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transformations\carga_dim_tempo.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -499,7 +499,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transfor\carga_dim_produtos_database.ktr</filename>
+      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transformations\carga_dim_produtos_database.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -538,7 +538,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transfor\carga_dim_transportadora.ktr</filename>
+      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transformations\carga_dim_transportadora.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -577,7 +577,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transfor\carga_fatos_vendas.ktr</filename>
+      <filename>C:\Users\Marcio\Documents\GitHub\projeto-business-intelligence\transformations\carga_fatos_vendas.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
